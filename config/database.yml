@@ -1,0 +1,37 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  host: localhost
+  database: banco_development
+  port: 5432
+  username: postgres
+  password: postgres
+
+  #port: 5432
+  #username: postgres
+  #password: postgres
+
+test:
+  <<: *default
+  host: localhost
+  database: banco_test
+  port: 5432
+  username: postgres
+  password: postgres
+
+production:
+  <<: *default
+  host: localhost
+  database: banco_production
+  port: 5432
+    <% if Rails.application.secrets[:database].present? %>
+  username: <%= Rails.application.credentials[Rails.env.to_sym][:database][:user] %>
+  password: <%= Rails.application.credentials[Rails.env.to_sym][:database][:password] %>
+    <% end %>
